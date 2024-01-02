@@ -2,4 +2,4 @@ tracking
 kv_secret2.py
 text*
 .vscode
-
+.env

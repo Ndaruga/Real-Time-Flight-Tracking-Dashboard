@@ -6,8 +6,10 @@ services:
     container_name: postgres_container
     restart: always
     environment:
-      - PGUSER=${POSTGRES_USER}
-      - PGPASSWORD=${POSTGRES_PASSWORD}
+      - PGDATABASE=${POSTGRES_DATABASE}
+      - PGUSER=postgres
+      - POSTGRES_HOST_AUTH_METHOD=trust
+      # - PGPASSWORD=${POSTGRES_PASSWORD}
     ports:
       - "${POSTGRES_PORT}:${POSTGRES_PORT}"
     healthcheck:

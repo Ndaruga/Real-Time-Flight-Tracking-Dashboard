@@ -1,15 +1,14 @@
 version: '3.8'
 
 services:
-  posrgres-database:
-    image: postgres
+  postgres-database:
+    image: postgres:latest
     container_name: postgres_container
     restart: always
     environment:
-      - PGDATABASE=${POSTGRES_DATABASE}
-      - PGUSER=postgres
-      - POSTGRES_HOST_AUTH_METHOD=trust
-      # - PGPASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DATABASE=${POSTGRES_DEFAULT_DATABASE}
+      - POSTGRES_USER=${DEFAULT_USER}
+      - POSTGRES_PASSWORD=${DEFAULT_USER_PASSWORD}
     ports:
       - "${POSTGRES_PORT}:${POSTGRES_PORT}"
     healthcheck:

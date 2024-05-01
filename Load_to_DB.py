@@ -13,9 +13,9 @@ DATABASE_NAME = "World_airports"
 
 # Connect to default database to create user role and drop/recreate the target database
 conn_default = psycopg2.connect(
-    database="postgres",
-    user="postgres",  # Connect with the default user
-    password=os.environ.get("POSTGRES_PASSWORD"),
+    database=os.environ.get("POSTGRES_DEFAULT_DATABASE"),
+    user=os.environ.get("DEFAULT_USER"),  # Connect with the default user
+    password=os.environ.get("DEFAULT_USER_PASSWORD"),
     host=os.environ.get("POSTGRES_HOST"),
     port=os.environ.get("POSTGRES_PORT")
 )
@@ -24,8 +24,13 @@ cursor_default = conn_default.cursor()
 
 # Drop existing database, if any, and create a new one
 cursor_default.execute(f"DROP DATABASE IF EXISTS {DATABASE_NAME.lower()}")
-cursor_default.execute("CREATE ROLE frank WITH LOGIN PASSWORD %s", (os.environ.get("POSTGRES_PASSWORD"),))
-cursor_default.execute(f"CREATE DATABASE {DATABASE_NAME.lower()} OWNER frank")
+
+try:
+    cursor_default.execute(f"CREATE ROLE {os.environ.get("POSTGRES_USER")} WITH LOGIN PASSWORD %s", (os.environ.get("POSTGRES_PASSWORD"),))
+except psycopg2.errors.DuplicateObject as e:
+    print(f"User Role '{os.environ.get("POSTGRES_USER")}' already exists. Skipping role creation...")
+
+cursor_default.execute(f"CREATE DATABASE {DATABASE_NAME.lower()} OWNER {os.environ.get("POSTGRES_USER")}")
 cursor_default.execute(f"GRANT ALL PRIVILEGES ON DATABASE {DATABASE_NAME.lower()} TO frank")
 print(f"{DATABASE_NAME} Database created.\n")
 

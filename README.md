@@ -1,6 +1,5 @@
 # Real-Time Flight Tracking Dashboard
 
-## About
 The Real-Time Flight Tracking Dashboard is an open-source project designed to track the location and status of aircraft in real-time. This dashboard utilizes various technologies including Python, Docker, Hadoop and PostgreSQL to provide a comprehensive view of flight data.
 
 ## Features

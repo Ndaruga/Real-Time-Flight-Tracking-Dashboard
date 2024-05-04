@@ -1,6 +1,9 @@
 version: '3.8'
 
 services:
+
+# -------------- POSTGRES DATABSE ------------------------#
+
   postgres-database:
     image: postgres:latest
     container_name: postgres_container
@@ -17,6 +20,7 @@ services:
       timeout: 5s
       retries: 10
   
+  # -------------- APACHE HADOOP --------------------------#
   namenode:
     image: bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8
     container_name: namenode
@@ -70,6 +74,14 @@ services:
       - hadoop_historyserver:/hadoop/yarn/timeline
     # env_file:
     #   - ./hadoop.env
+
+
+# -----------------APACHE KAFKA -------------------#
+  kafka:
+    image: cp-confluentinc/kafka-7.8.1
+    container_name: kafka
+    environment:
+      - name=value
   
 volumes:
   hadoop_namenode:

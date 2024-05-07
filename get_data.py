@@ -18,6 +18,9 @@ def create_spark_session():
 spark = create_spark_session()
 url=f"https://airlabs.co/api/v9/flights?api_key={os.environ.get("API_KEY")}"
 flightrawdata = requests.request('GET', url)
+with open('./data/flightdata.json', 'w') as f:
+    f.write(str(flightrawdata.json()))
+
 print(flightrawdata.json())
 
 
